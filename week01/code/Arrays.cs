@@ -8,12 +8,19 @@ public static class Arrays
     /// <returns>array of doubles that are the multiples of the supplied number</returns>
     public static double[] MultiplesOf(double number, int length)
     {
-        // TODO Problem 1 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        // Step 1: Create a double array with the given length
+        double[] multiples = new double[length];
 
-        return []; // replace this return statement with your own
+        // Step 2: Use a loop to fill the array with multiples of the number
+        // Each element at position i should be: number * (i + 1)
+        for (int i = 0; i < length; i++)
+        {
+            multiples[i] = number * (i + 1);
+        }
+
+        // Step 3: Return the resulting array
+        return multiples;
+         // replace this return statement with your own
     }
 
     /// <summary>
@@ -25,9 +32,17 @@ public static class Arrays
     /// </summary>
     public static void RotateListRight(List<int> data, int amount)
     {
-        // TODO Problem 2 Start
-        // Remember: Using comments in your program, write down your process for solving this problem
-        // step by step before you write the code. The plan should be clear enough that it could
-        // be implemented by another person.
+        int index = data.Count - amount;
+
+        // Step 2: Use GetRange to split the list into two parts
+        List<int> endPart = data.GetRange(index, amount);     // The last 'amount' elements
+        List<int> startPart = data.GetRange(0, index);        // The first elements up to the split point
+
+        // Step 3: Clear the original list
+        data.Clear();
+
+        // Step 4: Add the two parts in rotated order
+        data.AddRange(endPart);   // First, add the last part
+        data.AddRange(startPart); // Then, add the first part
     }
 }
