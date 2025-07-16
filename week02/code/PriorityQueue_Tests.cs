@@ -6,23 +6,43 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 public class PriorityQueueTests
 {
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
+    // Scenario: Basic dequeue behavior with mixed priorities.
+    // Expected Result: Item with highest priority (20) is removed first.
+    // Defect(s) Found: None.
     public void TestPriorityQueue_1()
     {
-        var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        var queue = new PriorityQueue();
+        queue.Enqueue("low", 5);
+        queue.Enqueue("medium", 10);
+        queue.Enqueue("high", 20);
+
+        var result = queue.Dequeue();
+        Assert.AreEqual("high", result);
     }
 
     [TestMethod]
-    // Scenario: 
-    // Expected Result: 
-    // Defect(s) Found: 
+    // Scenario: Tie in priorities — should respect FIFO.
+    // Expected Result: First "alpha" with priority 10 is removed before "beta" with same priority.
+    // Defect(s) Found: None.
     public void TestPriorityQueue_2()
     {
-        var priorityQueue = new PriorityQueue();
-        Assert.Fail("Implement the test case and then remove this.");
+        var queue = new PriorityQueue();
+        queue.Enqueue("alpha", 10);
+        queue.Enqueue("beta", 10);
+        queue.Enqueue("gamma", 5);
+
+        var result = queue.Dequeue();
+        Assert.AreEqual("alpha", result);
+    }
+    
+    [TestMethod]
+    // Scenario: Dequeue on empty queue
+    // Expected Result: InvalidOperationException is thrown
+    // Defect(s) Found: None.
+    public void TestPriorityQueue_EmptyQueueThrows()
+    {
+        var queue = new PriorityQueue();
+        Assert.ThrowsException<InvalidOperationException>(() => queue.Dequeue());
     }
 
     // Add more test cases as needed below.
