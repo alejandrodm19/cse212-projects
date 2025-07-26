@@ -1,5 +1,7 @@
 using System.Text.Json;
 
+
+
 public static class SetsAndMaps
 {
     /// <summary>
@@ -19,10 +21,22 @@ public static class SetsAndMaps
     /// that there were no duplicates) and therefore should not be returned.
     /// </summary>
     /// <param name="words">An array of 2-character words (lowercase, no duplicates)</param>
-    public static string[] FindPairs(string[] words)
+    public static List<string> FindPairs(string[] words)
     {
-        // TODO Problem 1 - ADD YOUR CODE HERE
-        return [];
+        var result = new List<string>();
+        var seen = new HashSet<string>();
+
+        foreach (var word in words)
+        {
+            var reversed = new string(word.Reverse().ToArray());
+            if (seen.Contains(reversed))
+            {
+                result.Add($"{reversed} & {word}");
+            }
+            seen.Add(word);
+        }
+
+        return result;
     }
 
     /// <summary>
@@ -38,14 +52,24 @@ public static class SetsAndMaps
     /// <returns>fixed array of divisors</returns>
     public static Dictionary<string, int> SummarizeDegrees(string filename)
     {
-        var degrees = new Dictionary<string, int>();
-        foreach (var line in File.ReadLines(filename))
+        var result = new Dictionary<string, int>();
+        var lines = File.ReadAllLines(filename);
+
+        foreach (var line in lines.Skip(1)) // skip header
         {
-            var fields = line.Split(",");
-            // TODO Problem 2 - ADD YOUR CODE HERE
+            var parts = line.Split(',');
+            if (parts.Length >= 5)
+            {
+                string degree = parts[4].Trim();
+
+                if (!result.ContainsKey(degree))
+                    result[degree] = 0;
+
+                result[degree]++;
+            }
         }
 
-        return degrees;
+        return result;
     }
 
     /// <summary>
@@ -66,8 +90,28 @@ public static class SetsAndMaps
     /// </summary>
     public static bool IsAnagram(string word1, string word2)
     {
-        // TODO Problem 3 - ADD YOUR CODE HERE
-        return false;
+        word1 = word1.Replace(" ", "").ToLower();
+        word2 = word2.Replace(" ", "").ToLower();
+
+        if (word1.Length != word2.Length)
+            return false;
+
+        var dict = new Dictionary<char, int>();
+
+        foreach (var c in word1)
+        {
+            if (!dict.ContainsKey(c)) dict[c] = 0;
+            dict[c]++;
+        }
+
+        foreach (var c in word2)
+        {
+            if (!dict.ContainsKey(c)) return false;
+            dict[c]--;
+            if (dict[c] < 0) return false;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -103,4 +147,22 @@ public static class SetsAndMaps
         // 3. Return an array of these string descriptions.
         return [];
     }
+
+    public class FeatureCollection
+    {
+        public List<Feature> features { get; set; }
+    }
+
+    public class Feature
+    {
+        public Properties properties { get; set; }
+    }
+
+    public class Properties
+    {
+        public string place { get; set; }
+        public double? mag { get; set; }
+    }
+    
+    
 }

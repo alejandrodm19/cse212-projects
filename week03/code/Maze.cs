@@ -30,10 +30,17 @@ public class Maze
     /// Check to see if you can move left.  If you can, then move.  If you
     /// can't move, throw an InvalidOperationException with the message "Can't go that way!".
     /// </summary>
+    /// 
+    private Dictionary<(int, int), (bool left, bool right, bool up, bool down)> maze;
+    private (int, int) position;
     public void MoveLeft()
+{
+    if (maze.ContainsKey(position) && maze[position].Item1)
     {
-        // FILL IN CODE
+        position = (position.Item1 - 1, position.Item2);
     }
+}
+   
 
     /// <summary>
     /// Check to see if you can move right.  If you can, then move.  If you
@@ -41,7 +48,10 @@ public class Maze
     /// </summary>
     public void MoveRight()
     {
-        // FILL IN CODE
+        if (maze.ContainsKey(position) && maze[position].right)
+    {
+        position = (position.Item1 + 1, position.Item2);
+    }
     }
 
     /// <summary>
@@ -50,7 +60,10 @@ public class Maze
     /// </summary>
     public void MoveUp()
     {
-        // FILL IN CODE
+            if (maze.ContainsKey(position) && maze[position].up)
+    {
+        position = (position.Item1, position.Item2 - 1);
+    }
     }
 
     /// <summary>
@@ -59,7 +72,10 @@ public class Maze
     /// </summary>
     public void MoveDown()
     {
-        // FILL IN CODE
+            if (maze.ContainsKey(position) && maze[position].down)
+    {
+        position = (position.Item1, position.Item2 + 1);
+    }
     }
 
     public string GetStatus()
