@@ -32,7 +32,19 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void InsertTail(int value)
     {
-        // TODO Problem 1
+        Node newNode = new(value);
+
+    if (_tail == null) // If the list is empty
+    {
+        _head = newNode;
+        _tail = newNode;
+    }
+    else
+    {
+        _tail.Next = newNode;
+        newNode.Prev = _tail;
+        _tail = newNode;
+    }
     }
 
 
@@ -64,7 +76,18 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void RemoveTail()
     {
-        // TODO Problem 2
+            if (_tail == null) return;
+
+    if (_tail == _head) // Only one node
+    {
+        _head = null;
+        _tail = null;
+    }
+    else
+    {
+        _tail = _tail.Prev;
+        _tail.Next = null;
+    }
     }
 
     /// <summary>
@@ -108,7 +131,30 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void Remove(int value)
     {
-        // TODO Problem 3
+        Node? curr = _head;
+
+    while (curr != null)
+    {
+        if (curr.Data == value)
+        {
+            if (curr == _head)
+            {
+                RemoveHead();
+            }
+            else if (curr == _tail)
+            {
+                RemoveTail();
+            }
+            else
+            {
+                curr.Prev!.Next = curr.Next;
+                curr.Next!.Prev = curr.Prev;
+            }
+            return;
+        }
+
+        curr = curr.Next;
+    }
     }
 
     /// <summary>
@@ -116,7 +162,17 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public void Replace(int oldValue, int newValue)
     {
-        // TODO Problem 4
+         Node? curr = _head;
+
+    while (curr != null)
+    {
+        if (curr.Data == oldValue)
+        {
+            curr.Data = newValue;
+        }
+
+        curr = curr.Next;
+    }
     }
 
     /// <summary>
@@ -146,8 +202,13 @@ public class LinkedList : IEnumerable<int>
     /// </summary>
     public IEnumerable Reverse()
     {
-        // TODO Problem 5
-        yield return 0; // replace this line with the correct yield return statement(s)
+            var curr = _tail;
+
+        while (curr != null)
+        {
+            yield return curr.Data;
+            curr = curr.Prev;
+        }
     }
 
     public override string ToString()
